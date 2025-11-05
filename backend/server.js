@@ -62,14 +62,29 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// Body parsing middleware
+// Body parsing middleware with compression
+const compression = require('compression');
+app.use(compression());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// Database connection
+// Cache control for static assets
+app.use((req, res, next) => {
+  if (req.url.match(/\.(css|js|png|jpg|jpeg|gif|ico|svg)$/)) {
+    res.setHeader('Cache-Control', 'public, max-age=31536000');
+  }
+  next();
+});
+
+// Database connection with optimizations
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/dining_hall', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  maxPoolSize: 10,
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 45000,
+  bufferCommands: false,
+  bufferMaxEntries: 0
 });
 
 mongoose.connection.on('connected', () => {
