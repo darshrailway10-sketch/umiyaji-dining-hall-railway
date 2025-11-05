@@ -28,7 +28,10 @@ const corsOptions = {
       'http://localhost:3000',  // Alternative dev port
       'https://umiyaji-dining-hall-f.onrender.com',  // Deployed frontend
       'https://localhost',       // HTTPS localhost
-      'https://127.0.0.1'       // HTTPS localhost IP
+      'https://127.0.0.1',       // HTTPS localhost IP
+      // Railway domains will be added after deployment
+      'https://umiyaji-dining-hall-b.railway.app',  // Railway backend URL
+      'https://your-frontend-app-name.railway.app'  // Railway frontend URL (if separate)
     ];
     
     if (allowedOrigins.includes(origin)) {
