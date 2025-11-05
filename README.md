@@ -1,1 +1,0 @@
-# umiyaji-dining-hall-railway
